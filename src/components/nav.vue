@@ -10,9 +10,11 @@
 <script>
 export default {
   name: 'home',
-  data: { 
+  data: function() {
+return { 
     msg: 'testing message'
-  }
+  };
+}
 }
 </script>
 
