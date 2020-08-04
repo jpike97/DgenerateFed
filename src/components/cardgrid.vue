@@ -1,14 +1,15 @@
 <template>
   <div class="cardgrid">
       <h1>Card Grid Test</h1>
-    <div class="card" v-for="card in cards" :key="card.title">
+    <div class="card-test" v-for="card in cards" :key="card.title">
         {{card.msg}}
     </div>
     </div>
 </template>
-
 <script>
 import store from '@/store/index.js'
+import '@/scss/_variables.scss';
+
 
 export default {
   name: 'cardgrid',
@@ -29,7 +30,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
+@import '@/scss/_variables.scss';
 h3 {
   margin: 40px 0 0;
 }
@@ -43,5 +45,12 @@ li {
 }
 a {
   color: #42b983;
+}
+.card { 
+  &-test { 
+      @media(min-width: $screen-md) { 
+        border: 1xp solid red;
+      }
+  }
 }
 </style>
