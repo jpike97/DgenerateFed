@@ -7,6 +7,12 @@ https://medium.com/@anaida07/mevn-stack-application-part-2-2-9ebcf8a22753
 HOW TO START
 
 npm install
+
 npm run dev
+
 server runs on localhost:8000
+
 fed runs on localhost:8080
+
+
+
