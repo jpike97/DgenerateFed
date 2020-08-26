@@ -15,7 +15,7 @@ export default {
   name: 'home',
   data: function () {
     return {
-      msg: 'testing message'
+      msg: 'testing 123'
     }
   },
   computed:  {  
