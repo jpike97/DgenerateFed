@@ -1,29 +1,29 @@
 <template>
   <div class="cardgrid">
       <h1>Card Grid Test</h1>
-    <div class="card-test" v-for="card in cards" :key="card.title">
-        {{card.msg}}
+    <div class="card-test" v-for="card in cards" :key="card.id">
+        {{card.name}}
     </div>
     </div>
 </template>
 <script>
-import store from '@/store/index.js'
 import '@/scss/_variables.scss';
-
+import PostsService from '@/services/CardsService'
 
 export default {
   name: 'cardgrid',
   data: function () {
     return {
-      cardTitle: ''
+      cards: []
     }
   },
-  computed:  {  
-    count() { 
-      return store.state.message;
-    },
-    cards() { 
-        return store.state.cards;
+  mounted () {
+    this.getCards()
+  },
+  methods: {
+    async getCards () {
+      const response = await PostsService.fetchCards()
+      this.cards = response.data
     }
   }
 }
