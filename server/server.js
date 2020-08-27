@@ -12,32 +12,88 @@ app.use(express.urlencoded({ extended: true }));
 let cards = 
 [
   {
-    id: 1,
-    name: 'Charity Ball',
-    category: 'Fundraising',
-    description: 'Spend an elegant night of dinner and dancing with us as we raise money for our new rescue farm.',
-    featuredImage: 'https://placekitten.com/500/500',
-    images: [
-      'https://placekitten.com/500/500',
-      'https://placekitten.com/500/500',
-      'https://placekitten.com/500/500',
+    id: 'TSLA',
+    ticker: 'TSLA',
+    currentPrice: '3,000',
+    icon: '',
+    numMentions: '36',
+    comments: [
+      'Contrary to popular belief, Lorem Ipsum is not simext. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney Colleg etur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat in, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical',
+      'It is a long established fact that a reader will be distracted by the readable content of a  Virginia page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ,ish.',
+      'Lorem ipsum dolor sit amet, consect. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui ply random t officia deserunt mollit  making it look like readable Engl anim id est laborum.',
     ],
-    location: '1234 Fancy Ave',
-    date: '12-25-2019',
-    time: '11:30'
   },
   {
-    id: 2,
-    name: 'Rescue Center Goods Drive',
-    category: 'Adoptions',
-    description: 'Come to our donation drive to help us replenish our stock of pet food, toys, bedding, etc. We will have live bands, games, food trucks, and much more.',
-    featuredImage: 'https://placekitten.com/500/500',
-    images: [
-      'https://placekitten.com/500/500'
+    id: 'NIO',
+    ticker: 'NIO',
+    currentPrice: '26.83',
+    icon: '',
+    numMentions: '36',
+    comments: [
+      'Contrary to a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock',
+      'It is a long established fact that a reader will be distracted  . Duis aute irur by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using , making it look like readable English.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequate dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     ],
-    location: '1234 Dog Alley',
-    date: '11-21-2019',
-    time: '12:00'
+  },
+  {
+    id: 'ALPHA',
+    ticker: 'ALPHA',
+    currentPrice: '26.83',
+    icon: '',
+    numMentions: '10',
+    comments: [
+      'Contrary to a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock',
+      'It is a long established fact that a reader will be distracted  . Duis aute irur by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using , making it look like readable English.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequate dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+  },
+  {
+    id: 'AMZN',
+    ticker: 'AMZN',
+    currentPrice: '3,002',
+    icon: '',
+    numMentions: '1',
+    comments: [
+      'Contrary to a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock',
+      'It is a long established fact that a reader will be distracted  . Duis aute irur by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using , making it look like readable English.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequate dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+  },
+  {
+    id: 'FB',
+    ticker: 'FB',
+    currentPrice: '26.12',
+    icon: '',
+    numMentions: '1',
+    comments: [
+      'Contrary to a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock',
+      'It is a long established fact that a reader will be distracted  . Duis aute irur by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using , making it look like readable English.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequate dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+  },
+  {
+    id: 'GM',
+    ticker: 'GM',
+    currentPrice: '12.45',
+    icon: '',
+    numMentions: '5',
+    comments: [
+      'Contrary to a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock',
+      'It is a long established fact that a reader will be distracted  . Duis aute irur by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using , making it look like readable English.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequate dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
+  },
+  {
+    id: 'UBI',
+    ticker: 'UBI',
+    currentPrice: '11.78',
+    icon: '',
+    numMentions: '89',
+    comments: [
+      'Contrary to a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock',
+      'It is a long established fact that a reader will be distracted  . Duis aute irur by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using , making it look like readable English.',
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequate dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    ],
   }
 ];
 
