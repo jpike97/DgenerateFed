@@ -4,9 +4,12 @@
 		<div class="card__wrapper" v-for="card in cards" :key="card.id">
       <div class="card__header">
        <img src="@/assets/logo.png" />
-       <h2>{{card.ticker}} </h2>
-      </div>
+	   <div class="card__header-info">
+       <h2>{{card.ticker}}</h2>
+	   <h3>{{card.currentPrice}}</h3>
+	   </div>
 		</div>
+	</div>
 	</div>
 </template>
 <script>
