@@ -8,7 +8,10 @@
        <h2>{{card.ticker}}</h2>
 	   <h3>{{card.currentPrice}}</h3>
 	   </div>
-		</div>
+	</div>
+	<div class="card__comments">
+		
+	</div>
 	</div>
 	</div>
 </template>
