@@ -10,7 +10,10 @@
 	   </div>
 	</div>
 	<div class="card__comments">
-		
+	<div class="card__comment" v-for="comment in card.comment" :key="comment.id">
+		{{comment.text}}
+	</div>
+
 	</div>
 	</div>
 	</div>
