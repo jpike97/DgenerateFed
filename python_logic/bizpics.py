@@ -12,6 +12,13 @@ import scipy
 import scipy.misc
 import scipy.cluster
 from webcolors import hex_to_name
+from datetime import datetime
+# datetime object containing current date and time
+
+now = datetime.now()
+# dd/mm/YY H:M:S
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+print("date and time =", dt_string)	
 
 colorlist = []
 a = 1
@@ -147,5 +154,6 @@ results = {
     "imageTotal": imageTotal,
     "hueAvg": hueAvg,
     "satAvg": satAvg,
-	"vAvg": vAvg
+	"vAvg": vAvg,
+	"dateTime": now
 }
