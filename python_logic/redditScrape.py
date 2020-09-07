@@ -119,6 +119,9 @@ def scrapeComments(the_thread):
 redditPassword = config.settings['redditPassword']
 redditClientSecret = config.settings['redditClientSecret']
 
+redditClientSecret = config.client_secret
+redditPassword = config.redditPassword
+
 reddit = praw.Reddit(
     client_id='GCjpdb-78ljIQg',
     client_secret=redditClientSecret,

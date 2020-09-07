@@ -58,11 +58,11 @@ def scrapeComments(the_thread):
 		try:
 			comment_with_tags = (x['com'])
 			cleaned_comment = sanitize(comment_with_tags)
-			# print(cleaned_comment)
 			count_comments += 1
 			# print(count_comments)
 			tickerArray = (findTickers(cleaned_comment))
 			for stock_ticker in tickerArray:
+				print (stock_ticker)
 				if len(stock_ticker) < 5 and stock_ticker not in nogos:
 					updateTickerInfo(stock_ticker)
 
@@ -80,13 +80,13 @@ def scrapeComments(the_thread):
 for x in json_data:
 	for y in x['threads']:
 		thread_id = y['no']
-		print(thread_id)
 		response = requests.get(biz_single_base_url + str(thread_id) + '.json')
 		json_data_comments = response.json()
 		for x in json_data_comments['posts']:
 			try:
 				# print(x['sub'])
 				if '/smg/' in x['sub']:
+					print("found smg")
 					scrapeComments(json_data_comments)
 					break
 			except:
@@ -96,26 +96,3 @@ for x in stock_ticker_tracking_array:
 	print(stock_ticker_tracking_array[x].mentions)
 	print(stock_ticker_tracking_array[x].price)
 	print('-----')
-
-
-
-# print('00000000000000000000000000000000000000000000000')
-# print(json_data_comments)
-# for x in json_data_comments['posts']:
-# 	try:
-# 		comment_with_tags = (x['com'])
-# 		cleaned_comment = sanitize(comment_with_tags)
-# 		if "SMG" in cleaned_comment:
-# 			print(cleaned_comment)
-# 			print('-----')
-# 	except:
-# 		print(x)
-
-##look for text in those threads
-# response = requests.get(biz_single_base_url + '17008002' + '.json')
-# json_data_comments = response.json()
-# for x in json_data_comments['posts']:
-# 	comment_with_tags = (x['com'])
-# 	cleaned_comment = sanitize(comment_with_tags)
-# 	print(cleaned_comment)
-# 	print('----')
