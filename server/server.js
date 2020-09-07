@@ -1,12 +1,56 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const app = express();
 const port = 8000;
+var options = require('./options');
+
+var loginData = {
+        username: options.storageConfig.username,
+        password: options.storageConfig.password
+};
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+
+
+
+const uri = "mongodb+srv://" + loginData.username + ":" + loginData.password + "@cluster0.7s8dh.mongodb.net/test?retryWrites=true&w=majority";
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log("MongoDB Connected…")
+})
+.catch(err => console.log(err))
+
+var db = mongoose.connection;
+db.once('open', function() {
+  console.log("Connection Successful!");
+  
+  // define Schema
+  var BizSchena = mongoose.Schema({
+    greenTotal: Number,
+    redTotal: Number,
+    imageTotal: Number
+  });
+
+  // compile schema to model
+  var Book = mongoose.model('Book', BookSchema, 'bookstore');
+
+  // a document instance
+  var book1 = new Book({ name: 'Introduction to Mongoose', price: 10, quantity: 25 });
+
+  // save model to database
+  book1.save(function (err, book) {
+    if (err) return console.error(err);
+    console.log(book.name + " saved to bookstore collection.");
+  });
+  
+});
 
 //test code start
 let cards = 
