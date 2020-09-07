@@ -2,31 +2,30 @@
 	<div class="cardgrid">
 		<h1>Card Grid Test</h1>
 		<div class="card__wrapper" v-for="card in cards" :key="card.id">
-      <div class="card__header">
-       <img src="@/assets/logo.png" />
-	   <div class="card__header-info">
-       <h2>{{card.ticker}}</h2>
-	   <h3>{{card.currentPrice}}</h3>
-	   </div>
-	</div>
-	<div class="card__comments">
-	<div class="card__comment" v-for="comment in card.comment" :key="comment.id">
-		{{comment.text}}
-	</div>
-
-	</div>
-	</div>
+			<div class="card__header">
+				<img src="@/assets/logo.png" />
+				<div class="card__header-info">
+					<h2>{{ card.ticker }}</h2>
+					<h3>{{ card.currentPrice }}</h3>
+				</div>
+			</div>
+			<div class="card__comments">
+				<div
+					class="card__comment"
+					v-for="comment in card.comment"
+					:key="comment.id"
+				>
+					{{ comment.text }}
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
 import "@/scss/_variables.scss";
 import PostsService from "@/services/CardsService";
-import jQuery from 'jquery'
-let $ = jQuery
-
-console.log($(".flip-container"));
-
-
+import jQuery from "jquery";
+let $ = jQuery;
 
 export default {
 	name: "cardgrid",
@@ -36,12 +35,11 @@ export default {
 		};
 	},
 	mounted() {
-    this.getCards();
-    $(document).on("click",".flip-container", function() {
-        console.log(this);
-        $(this).toggleClass('flip-container-clicked');
-    });
-    
+		this.getCards();
+		$(document).on("click", ".flip-container", function () {
+			console.log(this);
+			$(this).toggleClass("flip-container-clicked");
+		});
 	},
 	methods: {
 		async getCards() {
@@ -71,12 +69,10 @@ a {
 }
 .card {
 	&-test {
-    position: relative;
+		position: relative;
 		@media (min-width: $screen-md) {
 			border: 1xp solid red;
 		}
 	}
 }
-
-
 </style>
