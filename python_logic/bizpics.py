@@ -13,12 +13,21 @@ import scipy.misc
 import scipy.cluster
 from webcolors import hex_to_name
 from datetime import datetime
-# datetime object containing current date and time
+import json
+import pymongo
+import config
+##setting up db
 
+password = config.password
+username = config.username
+client = pymongo.MongoClient("mongodb://" + username + ":" + password + "@cluster0-shard-00-00.7s8dh.mongodb.net:27017,cluster0-shard-00-01.7s8dh.mongodb.net:27017,cluster0-shard-00-02.7s8dh.mongodb.net:27017/dGenerate?ssl=true&replicaSet=atlas-wjz2hv-shard-0&authSource=admin&retryWrites=true&w=majority")
+
+names = client.list_database_names()
+db = client.dGenerate
 now = datetime.now()
+
 # dd/mm/YY H:M:S
 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-print("date and time =", dt_string)	
 
 colorlist = []
 a = 1
@@ -26,7 +35,6 @@ a = 1
 
 def imagecalc():
 	NUM_CLUSTERS = 5
-	print('reading image')
 	im = Image.open('img/image.jpg')
 	im = im.resize((150, 150))  # optional, to reduce time
 	ar = np.asarray(im)
@@ -84,7 +92,6 @@ def convertToHSV(rgbColor):
 		v = cmax * 100
 		
 		hsvTuple = (h,s,v)
-		print(hsvTuple)
 		return hsvTuple
 
 
@@ -107,8 +114,6 @@ for image in images:
 	count += 1
 
 driver.close()
-
-print(colorlist)
 
 redTotal = 0
 greenTotal = 0
@@ -139,21 +144,17 @@ for rgbValue in colorlist:
 hueAvg = hueTotal / imageTotal
 satAvg = satTotal / imageTotal
 vAvg = vTotal / imageTotal
+HSVAvg = (hueAvg, satAvg, vAvg)
 ##TODO: show reddest & greenest image lol?
 
-print(greenTotal)
-print(redTotal)
-print(imageTotal)
-print(hueAvg)
-print(satAvg)
-print(vAvg)
 
-results = {
-    "greenTotal": greenTotal,
-    "redTotal": redTotal,
-    "imageTotal": imageTotal,
-    "hueAvg": hueAvg,
-    "satAvg": satAvg,
-	"vAvg": vAvg,
-	"dateTime": now
-}
+db.bizPicSnaps.insert_one({"greentotal": greenTotal, "redTotal": redTotal, "imageTotal": imageTotal, "HSVavg": HSVAvg, "dateTimeStamp": now})
+
+#results = '{"greenTotal": greenTotal,"redTotal": redTotal,
+ #   "imageTotal": imageTotal,
+  #  "hueAvg": hueAvg,
+   # "satAvg": satAvg,
+	#"vAvg": vAvg,
+	#"dateTime": now,
+	#"HSVAvg": 
+#}'
