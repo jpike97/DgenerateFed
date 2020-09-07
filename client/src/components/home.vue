@@ -1,9 +1,10 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <div class="avgImg" v-bind:style="{backgroundColor: avgColor}">
+
+    </div>
     <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the {{count}}
       <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
     </p>
   </div>
@@ -11,17 +12,37 @@
 
 <script>
 import store from '@/store/index.js'
+import BizPicService from "@/services/BizPicService";
 export default {
   name: 'home',
   data: function () {
     return {
-      msg: 'testing 123'
+      msg: 'testing 123',
+      bizPic: {},
+      avgColor: ''
     }
   },
   computed:  {  
     count() { 
       return store.state.message;
     }
+  }, 
+  mounted() { 
+    this.getBizImage();
+  },
+  methods: {
+      getAvgColors(bizPicData) {
+      let h = bizPicData.HSVavg[0];
+      let s = bizPicData.HSVavg[1];
+      let v = bizPicData.HSVavg[2];
+      this.avgColor = "hsl(" + h + ", " + s + "%, " + v + "%)";
+      console.log(this.avgColor);
+    },
+    async getBizImage() {
+      const response = await BizPicService.fetchBizPic();
+      this.bizPic = response.data.snap[0];
+      this.getAvgColors(response.data.snap[0]);
+      }
   }
 }
 </script>
@@ -41,5 +62,9 @@ li {
 }
 a {
   color: #42b983;
+}
+.avgImg { 
+  height: 500px;
+  width: 500px;
 }
 </style>
