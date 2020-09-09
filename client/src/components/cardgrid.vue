@@ -23,7 +23,7 @@
 </template>
 <script>
 import "@/scss/_variables.scss";
-import PostsService from "@/services/CardsService";
+import CardsService from "@/services/CardsService";
 import jQuery from "jquery";
 let $ = jQuery;
 
@@ -43,7 +43,7 @@ export default {
 	},
 	methods: {
 		async getCards() {
-			const response = await PostsService.fetchCards();
+			const response = await CardsService.fetchCards();
 			this.cards = response.data;
 		}
 	}
