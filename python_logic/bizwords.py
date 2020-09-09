@@ -28,7 +28,7 @@ nogos = [
     "FOMC", "TINA", "TL", "DR", "TED", "OP", "QE", "LEAP", "FWIW", "TLDR",
     "DUMB", "CALL", "SPYs", "BS", "YOLOs", "In", "Jr", "STILL", "EST", "CRAZY",
     "VIX", "FAFSA", "BTFD", "EOY", "YUGE", "EDT", "CHINA", "UNK", "JAPAN",
-    "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im"
+    "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im", "FUD"
 ]
 
 
@@ -80,12 +80,13 @@ def scrapeComments(the_thread):
 for x in json_data:
 	for y in x['threads']:
 		thread_id = y['no']
+		print(thread_id)
 		response = requests.get(biz_single_base_url + str(thread_id) + '.json')
 		json_data_comments = response.json()
 		for x in json_data_comments['posts']:
 			try:
-				# print(x['sub'])
-				if '/smg/' in x['sub']:
+				print(x['sub'])
+				if 'smg' in x['sub']:
 					print("found smg")
 					scrapeComments(json_data_comments)
 					break
