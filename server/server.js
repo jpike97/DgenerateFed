@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-const uri = "mongodb+srv://" + loginData.username + ":" + loginData.password + "@cluster0.7s8dh.mongodb.net/test?retryWrites=true&w=majority";
+const uri = "mongodb+srv://" + loginData.username + ":" + loginData.password + "@cluster0.7s8dh.mongodb.net/dGenerate?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -30,27 +30,18 @@ mongoose.connect(uri, {
 var db = mongoose.connection;
 db.once('open', function() {
   console.log("Connection Successful!");
-  
-  // define Schema
-  var BizSchena = mongoose.Schema({
-    greenTotal: Number,
-    redTotal: Number,
-    imageTotal: Number
-  });
-
-  // compile schema to model
-  var Book = mongoose.model('Book', BookSchema, 'bookstore');
-
-  // a document instance
-  var book1 = new Book({ name: 'Introduction to Mongoose', price: 10, quantity: 25 });
-
-  // save model to database
-  book1.save(function (err, book) {
-    if (err) return console.error(err);
-    console.log(book.name + " saved to bookstore collection.");
-  });
-  
 });
+
+var Schema = mongoose.Schema;
+
+var bizPicSnap = mongoose.model('bizPicSnap', new Schema({
+  greenTotal: Number,
+  redTotal: Number,
+  imageTotal: Number,
+  HSVavg: Array,
+  dateTimeStamp: Date
+}, { collection: 'bizPicSnaps'})
+);
 
 //test code start
 let cards = 
@@ -158,6 +149,17 @@ app.get('/cards/:id', (req, res) => {
 app.get('/', (req, res) => {
   res.send(`Hi! Server is listening on port ${port}`)
 });
+
+app.get('/bizpic', (req, res) => {
+  bizPicSnap.find({}, function (error, snap) {
+    if (error) { console.error(error); }
+    res.send({
+      snap: snap
+    })
+  }).sort({_id:-1}).limit(1)
+});
+
+     
 
 // listen on the port
 app.listen(port);
