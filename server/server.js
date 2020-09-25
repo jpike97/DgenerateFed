@@ -137,8 +137,17 @@ app.get('/cards', (req, res) => {
 });
 
 app.get('/cards/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const event = cards.find(event => event.id === id);
+  const id = req.params.id;
+  var event = "";
+  cards.forEach(function(item) {
+    const itemId = item.id;
+    console.log(itemId);
+    console.log(id);
+    if (itemId === id) { 
+      console.log("yep")
+      event = item;
+    }
+  }); // logs 1, 3
   res.send(event);
 });
 
