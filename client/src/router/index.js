@@ -20,7 +20,7 @@ Vue.use(VueRouter)
   },{
     path: "/cards/:id",
     name: "Cards",
-    component: () => import("../views/CardDetail")
+    component: () => import("../views/CardDetail.vue")
   }
 ]
 
