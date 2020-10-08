@@ -1,12 +1,13 @@
 <template>
-	<div class="card-detail">
+	<div class="card-detail-blah">
+		<span>testing testing testing</span>
+		<p>{{card.ticker}}</p>
+		<a href="/cards/NIO">Link link</a>
     </div>
 </template>
 <script>
 import "@/scss/_variables.scss";
-import CardsService from "@/services/CardsService";
-import jQuery from "jquery";
-let $ = jQuery;
+import CardDetailService from "@/services/CardDetailService";
 
 export default {
 	name: "carddetail",
@@ -16,15 +17,13 @@ export default {
 		};
 	},
 	mounted() {
-		this.getCards();
-		$(document).on("click", ".flip-container", function () {
-			console.log(this);
-			$(this).toggleClass("flip-container-clicked");
-		});
+		this.getCardDetail();
 	},
 	methods: {
 		async getCardDetail() {
-			const response = await CardDetailService.fetchCards();
+			let cardID = this.$route.params.id;
+			cardID = cardID.toUpperCase();
+			const response = await CardDetailService.fetchCardDetail(cardID);
 			this.card = response.data;
 		}
 	}
