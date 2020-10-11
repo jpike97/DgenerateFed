@@ -67,6 +67,7 @@ nav {
     font-size: 1.75rem;
     color: $white;
 
+
         &:after {
           content: '';
           position: absolute;
@@ -82,7 +83,8 @@ nav {
         &:hover,
         &:active,
         &:focus,
-        &.active {
+        &.active,
+        &.router-link-exact-active {
           &:after {
             width: 100%;
             transition: width 0.25s $ease-out-quad;
