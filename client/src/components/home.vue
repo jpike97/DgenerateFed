@@ -28,6 +28,7 @@ export default {
     }
   }, 
   mounted() { 
+    console.log("ah la la");
     this.getBizImage();
   },
   methods: {
@@ -36,11 +37,13 @@ export default {
       let s = bizPicData.HSVavg[1];
       let v = bizPicData.HSVavg[2];
       this.avgColor = "hsl(" + h + ", " + s + "%, " + v + "%)";
-      console.log(this.avgColor);
     },
     async getBizImage() {
+      console.log("Getting biz image");
       const response = await BizPicService.fetchBizPic();
+      console.log(response);
       this.bizPic = response.data.snap[0];
+      console.log(this.bizPic);
       this.getAvgColors(response.data.snap[0]);
       }
   }
@@ -65,6 +68,7 @@ a {
 }
 .avgImg { 
   height: 500px;
-  width: 500px;
+  width: 100%;
+  max-width: 600px;
 }
 </style>

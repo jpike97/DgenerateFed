@@ -20,11 +20,21 @@ Vue.use(VueRouter)
   },{
     path: "/cards/:id",
     name: "Cards",
-    component: () => import("../views/CardDetail.vue")
+    component: () => import("../views/CardDetail.vue"),
+    props: {id: ':id'}
+  },
+  { 
+    //weird rando redirection
+    path: '/rando', redirect: to => {
+      console.log(to);
+      //todo: build function that rando selects cardID
+      return '/';
+    }
   }
 ]
 
 const router = new VueRouter({
+  mode: "history",
   routes
 })
 

@@ -141,10 +141,7 @@ app.get('/cards/:id', (req, res) => {
   var event = "";
   cards.forEach(function(item) {
     const itemId = item.id;
-    console.log(itemId);
-    console.log(id);
     if (itemId === id) { 
-      console.log("yep")
       event = item;
     }
   }); // logs 1, 3

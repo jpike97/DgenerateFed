@@ -47,12 +47,7 @@ li {
 a {
 	color: #42b983;
 }
-.card {
-	&-test {
-		position: relative;
-		@media (min-width: $screen-md) {
-			border: 1xp solid red;
-		}
-	}
+.card-detail-blah {
+
 }
 </style>
