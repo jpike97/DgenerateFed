@@ -4,10 +4,25 @@ from utilities.sanitize import sanitize
 from utilities.findTickers import findTickers
 from utilities.getPrice import getPrice
 from bs4 import BeautifulSoup
+import config
+import pymongo
+import config
+from datetime import datetime
 
 biz_threads_url = "https://a.4cdn.org/biz/threads.json"
 
 biz_single_base_url = "https://a.4cdn.org/biz/thread/"
+
+password = config.password
+username = config.username
+client = pymongo.MongoClient("mongodb://" + username + ":" + password + "@cluster0-shard-00-00.7s8dh.mongodb.net:27017,cluster0-shard-00-01.7s8dh.mongodb.net:27017,cluster0-shard-00-02.7s8dh.mongodb.net:27017/dGenerate?ssl=true&replicaSet=atlas-wjz2hv-shard-0&authSource=admin&retryWrites=true&w=majority")
+
+names = client.list_database_names()
+db = client.dGenerate
+now = datetime.now()
+
+# dd/mm/YY H:M:S
+dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
 response = requests.get(biz_threads_url)
 json_data = response.json()
@@ -96,4 +111,5 @@ for x in stock_ticker_tracking_array:
 	print(stock_ticker_tracking_array[x].name)
 	print(stock_ticker_tracking_array[x].mentions)
 	print(stock_ticker_tracking_array[x].price)
+	db.bizWordsCards.insert_one({"id": stock_ticker_tracking_array[x].name, "ticker": stock_ticker_tracking_array[x].name, "currentPrice": stock_ticker_tracking_array[x].price, "comments": [], "numMentions": stock_ticker_tracking_array[x].mentions, "dateTimeStamp": datetime.now()})
 	print('-----')

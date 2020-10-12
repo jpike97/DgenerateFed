@@ -1,21 +1,14 @@
 <template>
 	<div class="cardgrid">
 		<h1>Card Grid Test</h1>
-		<div class="card__wrapper" v-for="card in cards" :key="card.id">
-			<div class="card__header">
-				<img src="@/assets/logo.png" />
-				<div class="card__header-info">
-					<h2>{{ card.ticker }}</h2>
-					<h3>{{ card.currentPrice }}</h3>
-				</div>
-			</div>
-			<div class="card__comments">
-				<div
-					class="card__comment"
-					v-for="comment in card.comment"
-					:key="comment.id"
-				>
-					{{ comment.text }}
+		<div class="cardgrid__cards">
+			<div class="card__wrapper" v-for="card in cards" :key="card.id">
+				<div class="card__header">
+					<div class="card__header-info">
+						<h2>{{ card.ticker }}</h2>
+						<h3>{{ card.currentPrice.toFixed(2) }}</h3>
+						<h3>{{ card.numMentions }}</h3>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -44,7 +37,9 @@ export default {
 	methods: {
 		async getCards() {
 			const response = await CardsService.fetchCards();
-			this.cards = response.data;
+			this.cards = response.data.cards.filter(function (card) {
+				return card.currentPrice != null;
+			});
 		}
 	}
 };
@@ -67,12 +62,32 @@ li {
 a {
 	color: #42b983;
 }
+.cardgrid {
+	&__cards {
+		display: flex;
+		flex-flow: wrap;
+		justify-content: center;
+		align-items: center;
+		max-width: 1160px;
+		margin: 0 auto;
+		text-align: center;
+		margin-top: 3rem;
+	}
+}
 .card {
 	&-test {
 		position: relative;
 		@media (min-width: $screen-md) {
 			border: 1xp solid red;
 		}
+	}
+	&__wrapper {
+		background-color: #1a1a19;
+		color: #d4d3cd;
+		width: 350px;
+		margin: 0px 1rem;
+		margin-bottom: 3rem;
+		cursor: pointer;
 	}
 }
 </style>

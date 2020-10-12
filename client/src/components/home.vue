@@ -1,12 +1,8 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <!-- <h1>{{ msg }}</h1>
     <div class="avgImg" v-bind:style="{backgroundColor: avgColor}">
-
-    </div>
-    <p>
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
+    </div>-->
   </div>
 </template>
 

@@ -1,8 +1,7 @@
 <template>
 	<div class="card-detail-blah">
 		<span>testing testing testing</span>
-		<p>{{card.ticker}}</p>
-		<a href="/cards/NIO">Link link</a>
+		<p>{{card.currentPrice}}</p>
     </div>
 </template>
 <script>
@@ -22,9 +21,9 @@ export default {
 	methods: {
 		async getCardDetail() {
 			let cardID = this.$route.params.id;
-			cardID = cardID.toUpperCase();
+			//cardID = cardID.toUpperCase();
 			const response = await CardDetailService.fetchCardDetail(cardID);
-			this.card = response.data;
+			this.card = response.data.card;
 		}
 	}
 };
