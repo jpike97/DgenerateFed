@@ -39,7 +39,8 @@ var bizPicSnap = mongoose.model('bizPicSnap', new Schema({
   redTotal: Number,
   imageTotal: Number,
   HSVavg: Array,
-  dateTimeStamp: Date
+  dateTimeStamp: Date,
+  expire_at: {type: Date, default: Date.now, expires: 120} 
 }, { collection: 'bizPicSnaps'})
 );
 
@@ -66,11 +67,11 @@ app.get('/cards', (req, res) => {
 app.get('/cards/:id', (req, res) => {
   const id = req.params.id;
   var event = "";
-  bizWordsCard.findOne({ticker: id}, function(err, card) {
+  bizWordsCard.find({ticker: id}, function(err, card) {
     res.send({
       card: card
     })
-  });
+  }).sort({_id:-1}).limit(1);
 });
 
 
