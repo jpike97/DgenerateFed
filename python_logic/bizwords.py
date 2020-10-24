@@ -1,13 +1,37 @@
 import requests
 import json
-from utilities.sanitize import sanitize
-from utilities.findTickers import findTickers
-from utilities.getPrice import getPrice
 from bs4 import BeautifulSoup
 import config
 import pymongo
 import config
 from datetime import datetime
+from bs4 import BeautifulSoup
+import re
+
+
+def findTickers(bodyText):
+	matches = re.findall(
+	    r"(\b(?:[A-Z]+[a-z]?[A-Z]*|[A-Z]*[a-z]?[A-Z]+)\b(?:\s+(?:[A-Z]+[a-z]?[A-Z]*|[A-Z]*[a-z]?[A-Z]+)\b)*)",
+	    bodyText)
+	return (matches)
+
+whitelist = set('abcdefghijklmnopqrstuvwxyz $ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+
+from yahoo_fin import stock_info as si
+
+
+def getPrice(ticker):
+	try:
+		price = si.get_live_price(ticker)
+		return price
+	except:
+		print('no')
+
+def sanitize(comment_input):
+	cleaned_comment = BeautifulSoup(comment_input).get_text()
+	return ''.join(filter(whitelist.__contains__, cleaned_comment))
+
+
 
 biz_threads_url = "https://a.4cdn.org/biz/threads.json"
 
