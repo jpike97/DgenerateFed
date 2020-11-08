@@ -1,12 +1,16 @@
 <template>
-	<div class="card-detail-blah">
-		<span>testing testing testing</span>
+	<div class="card-detail">
+		<div class="card-detail__currentprice">
+		<h2>Current Price</h2>
 		<p>{{ card.currentPrice }}</p>
+		</div>
 		<div class="news">
-			<h1>News Test</h1>
-			<p v-for="newsArticle in news" :key="newsArticle.id">
-				{{ newsArticle.title }}
-			</p>
+			<h2>News</h2>
+			<div class="news__wrapper" v-for="newsArticle in news" :key="newsArticle.id">
+				<h3>
+				<a target="_blank" :href='newsArticle.link'> {{ newsArticle.title }} </a>
+				</h3>
+			</div>
 		</div>
 	</div>
 </template>
@@ -15,6 +19,8 @@ import "@/scss/_variables.scss";
 import CardDetailService from "@/services/CardDetailService";
 import NewsService from "@/services/NewsService";
 //TODO: run ajax after page load? prevent spinny
+import jQuery from "jquery";
+let $ = jQuery;
 
 export default {
 	name: "carddetail",
@@ -32,7 +38,8 @@ export default {
 		setTimeout(function(){ 
 		console.log("blah");
 		self.getCardNews();
-		self.newsLoaded = true;}, 1500);
+		self.newsLoaded = true;
+		}, 1500);
 		
 	},
 	methods: {
@@ -54,6 +61,8 @@ export default {
 					console.log(data.items);
 					self.news = data.items;
 					self.newsLoaded = true;
+					//show the loaded news
+					$('.news').addClass('newsLoaded');
 				}
 			});
 		}
@@ -76,8 +85,20 @@ li {
 	margin: 0 10px;
 }
 a {
-	color: #42b983;
+	color: $white;
+	text-decoration: none;
+	&:hover { 
+		text-decoration: underline;
+	}
 }
-.card-detail-blah {
+.card-detail {
+
+	.news { 
+		opacity: 0;
+		&.newsLoaded  { 
+			opacity: 1;
+			transition: opacity .5s ease-in-out;
+		}
+	}
 }
 </style>
