@@ -3,13 +3,13 @@
 		<h1>Card Grid Test</h1>
 		<div class="cardgrid__cards">
 			<div class="card__wrapper" v-for="card in cards" :key="card.id">
-				<div class="card__header">
+				<a :href="'/cards/' + card.ticker" class="card__header">
 					<div class="card__header-info">
 						<h2>{{ card.ticker }}</h2>
 						<h3>{{ card.currentPrice.toFixed(2) }}</h3>
 						<h3>{{ card.numMentions }}</h3>
 					</div>
-				</div>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -37,6 +37,7 @@ export default {
 	methods: {
 		async getCards() {
 			const response = await CardsService.fetchCards();
+			console.log(response);
 			this.cards = response.data.cards.filter(function (card) {
 				return card.currentPrice != null;
 			});
@@ -61,6 +62,7 @@ li {
 }
 a {
 	color: #42b983;
+	text-decoration: none;
 }
 .cardgrid {
 	&__cards {
@@ -88,6 +90,11 @@ a {
 		margin: 0px 1rem;
 		margin-bottom: 3rem;
 		cursor: pointer;
+	}
+	&__header { 
+		&-info { 
+			padding: 2rem 0;
+		}
 	}
 }
 </style>
