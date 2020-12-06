@@ -95,6 +95,7 @@ a {
 
 	.news { 
 		opacity: 0;
+		padding-top: 40px;
 		&.newsLoaded  { 
 			opacity: 1;
 			transition: opacity .5s ease-in-out;
