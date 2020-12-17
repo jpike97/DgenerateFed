@@ -6,3 +6,5 @@ python_logic/img/image.jpg
 python_logic/utilities/__pycache__/findTickers.cpython-37.pyc
 *.pyc
 server/config.json
+*.env
+client/src/config.json
