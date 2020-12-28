@@ -74,6 +74,16 @@ app.get('/cards/:id', (req, res) => {
   }).sort({_id:-1}).limit(1);
 });
 
+app.get('/news/:id', (req, res) => {
+   const id = req.params.id;
+   let thing = { 
+     json1: "jsondata",
+     jason3: "jasonData"
+   }
+   res.send({ 
+      thing
+   });
+});
 
 
 //test code end
