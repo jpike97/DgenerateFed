@@ -18,6 +18,8 @@ import scipy
 import scipy.misc
 import scipy.cluster
 from webcolors import hex_to_name
+from newsapi import NewsApiClient
+
 
 
 def findTickers(bodyText):
@@ -26,7 +28,25 @@ def findTickers(bodyText):
 	    bodyText)
 	return (matches)
 
+
+def getNews(symbol):
+	news_array = []
+	api_key = "594ed19f25ef4721bc7cf77cbf0aadc6"
+	try:
+		response = requests.get("https://newsapi.org/v2/everything?q=" +
+		                        symbol + "&apiKey=" + api_key)
+	except:
+		return 0
+
+	json_news_data = response.json()
+	for x in json_news_data['articles']:
+		news_array.append([x['title'], x['url']])
+	return news_array
+
+newsApi = config.newsApi
 whitelist = set('abcdefghijklmnopqrstuvwxyz $ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+newsapi = NewsApiClient(api_key=newsApi)
+
 
 from yahoo_fin import stock_info as si
 
@@ -88,6 +108,7 @@ class Ticker:
 		self.mentions = 0
 		self.name = "o"
 		self.price = 0
+		self.newsArticles = []
 
 
 def updateTickerInfo(stock_ticker_to_update):
@@ -112,7 +133,6 @@ def scrapeComments(the_thread):
 			# print(count_comments)
 			tickerArray = (findTickers(cleaned_comment))
 			for stock_ticker in tickerArray:
-				print (stock_ticker)
 				if len(stock_ticker) < 5 and stock_ticker not in nogos:
 					updateTickerInfo(stock_ticker)
 
@@ -130,154 +150,41 @@ def scrapeComments(the_thread):
 for x in json_data:
 	for y in x['threads']:
 		thread_id = y['no']
-		print(thread_id)
 		response = requests.get(biz_single_base_url + str(thread_id) + '.json')
-		json_data_comments = response.json()
+		try:
+			json_data_comments = response.json()
+		except:
+			print("no")
 		for x in json_data_comments['posts']:
 			try:
 				print(x['sub'])
 				if 'smg' in x['sub']:
-					print("found smg")
 					scrapeComments(json_data_comments)
 					break
 			except:
 				break
+
+
+
+###news
+
+
+# /v2/top-headlines
+
+
+# /v2/everything
+
+# /v2/sources
+
+
+news = []
+
 for x in stock_ticker_tracking_array:
-	print(stock_ticker_tracking_array[x].name)
-	print(stock_ticker_tracking_array[x].mentions)
-	print(stock_ticker_tracking_array[x].price)
 	db.bizWordsCards.remove( { "id" : stock_ticker_tracking_array[x].name})
+
+for x in stock_ticker_tracking_array:
+	##get news!
+	top_headlines = getNews(stock_ticker_tracking_array[x].name)
 	if stock_ticker_tracking_array[x].price is not None:
-			db.bizWordsCards.insert_one({"id": stock_ticker_tracking_array[x].name, "ticker": stock_ticker_tracking_array[x].name, "currentPrice": stock_ticker_tracking_array[x].price, "comments": [], "numMentions": stock_ticker_tracking_array[x].mentions, "dateTimeStamp": datetime.now()})
+			db.bizWordsCards.insert_one({"id": stock_ticker_tracking_array[x].name, "ticker": stock_ticker_tracking_array[x].name, "currentPrice": stock_ticker_tracking_array[x].price, "comments": [], "numMentions": stock_ticker_tracking_array[x].mentions, "dateTimeStamp": datetime.now(), "news": top_headlines})
 			print('-----')
-
-
-colorlist = []
-a = 1
-
-
-def imagecalc():
-	NUM_CLUSTERS = 5
-	im = Image.open('img/image.jpg')
-	im = im.resize((150, 150))  # optional, to reduce time
-	ar = np.asarray(im)
-	shape = ar.shape
-	ar = ar.reshape(scipy.product(shape[:2]), shape[2]).astype(float)
-
-	codes, dist = scipy.cluster.vq.kmeans(ar, NUM_CLUSTERS)
-
-	vecs, dist = scipy.cluster.vq.vq(ar, codes)  # assign codes
-	counts, bins = scipy.histogram(vecs, len(codes))  # count occurrences
-
-	index_max = scipy.argmax(counts)  # find most frequent
-	peak = codes[index_max]
-	colour = binascii.hexlify(bytearray(int(c) for c in peak)).decode('ascii')
-	colourHSV = convertToHSV(colour)
-	colorlist.append(colourHSV)
-
-def convertToHSV(rgbColor):
-		h = rgbColor
-		rgb = tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
-		r = rgb[0]
-		g = rgb[1]
-		b = rgb[2]
-
-		r, g, b = r / 255.0, g / 255.0, b / 255.0
-  
-	# h, s, v = hue, saturation, value 
-		cmax = max(r, g, b)    # maximum of r, g, b 
-		cmin = min(r, g, b)    # minimum of r, g, b 
-		diff = cmax-cmin       # diff of cmax and cmin. 
-  
-	# if cmax and cmax are equal then h = 0 
-		if cmax == cmin:  
-			h = 0
-	  
-	# if cmax equal r then compute h 
-		elif cmax == r:  
-			h = (60 * ((g - b) / diff) + 360) % 360
-  
-	# if cmax equal g then compute h 
-		elif cmax == g: 
-			h = (60 * ((b - r) / diff) + 120) % 360
-  
-	# if cmax equal b then compute h 
-		elif cmax == b: 
-			h = (60 * ((r - g) / diff) + 240) % 360
-  
-		# if cmax equal zero 
-		if cmax == 0: 
-			s = 0
-		else: 
-			s = (diff / cmax) * 100
-  
-	# compute v 
-		v = cmax * 100
-		
-		hsvTuple = (h,s,v)
-		return hsvTuple
-
-
-
-count = 0
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--log-level=3")
-
-driver = webdriver.Chrome(options=chrome_options)
-driver.get("http://4chan.org/biz/catalog")
-images = driver.find_elements_by_tag_name('img')
-
-for image in images:
-	urllib.request.urlretrieve(image.get_attribute('src'), 'img/image.jpg')
-	try:
-		imagecalc()
-	except:
-		print("oof")
-	count += 1
-
-driver.close()
-
-redTotal = 0
-greenTotal = 0
-imageTotal = 0
-hueTotal = 0
-satTotal = 0
-vTotal = 0
-
-for rgbValue in colorlist:
-	hue = rgbValue[0]
-	sat = rgbValue[1]
-	v = rgbValue[2]
-
-	##grey / blackness check
-	if sat and v > 30:
-		##check for red / green
-		if hue > 0 and hue < 60:
-			redTotal += 1
-			
-		elif hue > 100 and hue < 180:
-			greenTotal += 1
-
-	hueTotal += hue
-	satTotal += sat
-	vTotal += v
-	imageTotal += 1
-	
-hueAvg = hueTotal / imageTotal
-satAvg = satTotal / imageTotal
-vAvg = vTotal / imageTotal
-HSVAvg = (hueAvg, satAvg, vAvg)
-##TODO: show reddest & greenest image lol?
-
-
-db.bizPicSnaps.insert_one({"greentotal": greenTotal, "redTotal": redTotal, "imageTotal": imageTotal, "HSVavg": HSVAvg, "dateTimeStamp": now})
-
-#results = '{"greenTotal": greenTotal,"redTotal": redTotal,
- #   "imageTotal": imageTotal,
-  #  "hueAvg": hueAvg,
-   # "satAvg": satAvg,
-	#"vAvg": vAvg,
-	#"dateTime": now,
-	#"HSVAvg": 
-#}'
