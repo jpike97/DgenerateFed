@@ -42,7 +42,6 @@ export default {
 	methods: {
 		async getCards() {
 			const response = await CardsService.fetchCards();
-			console.log(response);
 			this.cards = response.data.cards.filter(function (card) {
 				return card.currentPrice != null;
 			});
