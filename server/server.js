@@ -50,7 +50,8 @@ var bizWordsCard = mongoose.model('bizWordsCard', new Schema({
   currentPrice: Number,
   comments: Array,
   numMentions: Number,
-  dateTimeStamp: Date
+  dateTimeStamp: Date,
+  news: Array
 }, { collection: 'bizWordsCards'})
 );
 
@@ -75,14 +76,15 @@ app.get('/cards/:id', (req, res) => {
 });
 
 app.get('/news/:id', (req, res) => {
-   const id = req.params.id;
-   let thing = { 
-     json1: "jsondata",
-     jason3: "jasonData"
-   }
-   res.send({ 
-      thing
-   });
+  const id = req.params.id;
+  var event = "";
+  bizWordsCard.find({ticker: id}, function(err, card) {
+    console.log("hmm");
+    console.log(card);
+    res.send({
+      news: card[0].news
+    })
+  }).sort({_id:-1}).limit(1);
 });
 
 
