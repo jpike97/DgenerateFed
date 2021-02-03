@@ -89,7 +89,23 @@ h3 {
   }
   .mobile-nav { 
     &__wrapper { 
-      
+      text-align: left;
+      padding-left: 2rem;
+      display: flex;
+      flex-direction: column;
+      a { 
+        text-decoration: none;
+        color: $white;
+        font-size: 2rem;
+        font-weight: bold;
+        &:first-of-type { 
+          margin-bottom: 2rem;
+        }
+        &.router-link-exact-active { 
+          text-decoration: underline;
+        }
+      }
+
     }
     &__header { 
       display: flex;

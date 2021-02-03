@@ -24,6 +24,12 @@ Other thoughts:
 
 bzzzz
 
+TODO 
+
+_nav.scss necessary? move to nav component?
+
+news api stuff
+
 
 
 

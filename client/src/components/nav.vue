@@ -30,7 +30,7 @@
 import jQuery from "jquery";
 let $ = jQuery;
 export default {
-  name: 'home',
+  name: 'nav',
   data: function() {
 return { 
     avgColor: ''
@@ -40,7 +40,12 @@ return {
 		$(document).on("click", ".hamburger", function () {
       $('.hamburger').toggleClass('is-active');
       $('.mobile-slideout').toggleClass('active');
-		});
+    });
+    $(document).on("click", ".router-link-active", function() {
+      console.log("clicked"); 
+      $('.mobile-slideout').toggleClass('active');
+      $('.hamburger').toggleClass('is-active');
+    });
 	},
 computed: {
 },

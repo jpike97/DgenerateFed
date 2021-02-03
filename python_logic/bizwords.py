@@ -84,7 +84,7 @@ json_data = response.json()
 count = 0
 hold_id = 17020414
 stock_ticker_tracking_array = {}
-nogos = [
+nogos = set(
     "If I", "DD", "LEAPs", "ATH", "I", "Gj", "So I", "OTM", "ITM", "My", "A",
     "So", "TF", "WHY", "LOL", "No", "Leap", "Leaps", "Go", "Up", "It", "WSB",
     "WSB DD", "YOLOS", "YOLO", "FD", "If", "LMAO", "RIP", "IV", "EOW", "Or",
@@ -99,7 +99,7 @@ nogos = [
     "DUMB", "CALL", "SPYs", "BS", "YOLOs", "In", "Jr", "STILL", "EST", "CRAZY",
     "VIX", "FAFSA", "BTFD", "EOY", "YUGE", "EDT", "CHINA", "UNK", "JAPAN",
     "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im", "FUD"
-]
+)
 
 
 class Ticker:
@@ -135,6 +135,8 @@ def scrapeComments(the_thread):
 			for stock_ticker in tickerArray:
 				if len(stock_ticker) < 5 and stock_ticker not in nogos:
 					updateTickerInfo(stock_ticker)
+				else:
+					print (stock_ticker)
 
 				# try:
 				# 	print(stock_ticker)
@@ -157,7 +159,6 @@ for x in json_data:
 			print("no")
 		for x in json_data_comments['posts']:
 			try:
-				print(x['sub'])
 				if 'smg' in x['sub']:
 					scrapeComments(json_data_comments)
 					break

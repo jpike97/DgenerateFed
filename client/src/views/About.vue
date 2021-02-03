@@ -12,3 +12,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+@import "@/scss/_variables.scss";
+h1 { 
+  margin-top: 20px;
+}
+</style>
