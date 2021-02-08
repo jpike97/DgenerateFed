@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 from datetime import datetime
+from datetime import timedelta
 import json
 import pymongo
 import config
@@ -12,7 +13,7 @@ client = pymongo.MongoClient("mongodb://" + username + ":" + password + "@cluste
 
 names = client.list_database_names()
 db = client.dGenerate
-now = datetime.now()
+now = datetime.now() + timedelta(days=1)
 now = datetime(*now.timetuple()[:3])
 print(now)
 db.bizWordsCards.remove( { "dateTimeStamp" : {"$lt" : now } })

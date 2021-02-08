@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from newsapi import NewsApiClient
 import basc_py4chan
+from iexfinance.stocks import Stock
 
 
 def findTickers(bodyText):
@@ -18,17 +19,20 @@ def findTickers(bodyText):
         bodyText)
     return (matches)
 
-##TODO: use set?
+# TODO: use set?
+
 
 whitelist = set('abcdefghijklmnopqrstuvwxyz $ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
 newNoGoArray = []
 
+
 def getPrice(ticker):
-    print ("Getting price for " + ticker)
+    print("Getting price for " + ticker)
     try:
-        price = si.get_live_price(ticker)
-        print("ticker price complete for "  + ticker)
+        price = Stock(ticker).get_price()
+        print("ticker price complete for " + ticker)
+        print("price is " + str(price))
         return price
     except:
         return newNoGoArray.append(ticker)
@@ -42,6 +46,12 @@ def getNews(symbol):
                                 symbol + "&apiKey=" + api_key)
     except:
         return 0
+
+        json_news_data = response.json()
+        for x in json_news_data['articles']:
+            news_array.append([x['title'], x['url']])
+        return news_array
+    print("got news I guess")
 
 
 password = config.password
@@ -58,7 +68,7 @@ dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
 count = 0
 stock_ticker_tracking_array = {}
-nogoSet = { 
+nogoSet = {
     "If I", "DD", "LEAPs", "ATH", "I", "Gj", "So I", "OTM", "ITM", "My", "A",
     "So", "TF", "WHY", "LOL", "No", "Leap", "Leaps", "Go", "Up", "It", "WSB",
     "WSB DD", "YOLOS", "YOLO", "FD", "If", "LMAO", "RIP", "IV", "EOW", "Or",
@@ -72,7 +82,7 @@ nogoSet = {
     "FOMC", "TINA", "TL", "DR", "TED", "OP", "QE", "LEAP", "FWIW", "TLDR",
     "DUMB", "CALL", "SPYs", "BS", "YOLOs", "In", "Jr", "STILL", "EST", "CRAZY",
     "VIX", "FAFSA", "BTFD", "EOY", "YUGE", "EDT", "CHINA", "UNK", "JAPAN",
-    "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im", "FUD", "USD", "TRIPLE",  "Gf"
+    "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im", "FUD", "USD", "TRIPLE",  "Gf", 'Am I', 'No I', 'MUCH', 'Id', 'Uh', 'NO', 'Mr', 'LSD', 'Me', 'BBC', 'V', 'X', 'AI', 'AOC', 'ST', 'YO', 'Ex', 'SiL', 'OC', 'He', 'BY', 'Y', 'THAT', 'YES', 'MORE', 'GF', 'WAIT', 'G', 'O', 'T', 'MIN', 'H', 'SJWs', 'On', 'Al', 'AR', 'YOU', 'S', 'VII', 'VIII', 'VI', 'II', 'Au', 'Ag', 'BUMP', 'Ew', 'FAST', 'XD', 'Ro', 'Em', 'N', 'ROLL', 'Eh', 'RAUL', 'Re', 'YLYL', 'AC', 'DC', 'BBQ', 'Op', 'KOd', 'Us', 'PC', 'As', 'CEO', 'SAME', 'Bc', 'By', 'TACs', 'R', 'HG', 'JFC', 'IP', 'JC', 'IT', 'ONE', 'BJ', 'CL', 'Oh I', 'HUNG', 'Bf', 'Bi', 'M', 'F', 'Z', 'K', 'CDC', 'NOT', 'Be', 'TV', 'NPD', 'CIS', 'OK', 'Bj', 'OMG', 'JJ', 'WWYD', 'STFU', 'C', 'WOO', 'LoL', 'GTA', 'E', 'RAGE', 'XSX', 'MC', 'SA', 'SON', 'An', 'Eg', 'LGBT', 'GDP', 'GW', 'Da', 'GAY', 'Dr', 'DLC', 'GE', 'MOBA', 'ToS', 'IRQ', 'Mb', 'WHFB', 'AoS', 'MOAR', 'NEED', 'GoT', 'B', 'Vp', 'AND', 'EU', 'Um', 'STOP', 'BRO', 'CDs', 'BE', 'HRT', 'HON', 'GME', 'OK I', 'OTC', 'NC', 'D', 'GOOD', 'Hi', 'BBW', 'HOT', 'AA', 'EVER', 'ARE', 'LA', 'KYS', 'IQ', 'SAT', 'GTFO', 'HEY', 'FBI', 'ACT', 'CAN', 'BMI', 'FTM', 'SHTF', 'MRE', 'PB', 'SO', 'USA', 'TABS', 'CP', 'BLM', 'EXT', 'RO', 'EDC', 'KEK', 'Ar', 'ACs', 'DVR', 'PSE', 'HA', 'BOB', 'BOY', 'Hm', 'De', 'AD', 'USSR', 'NK', 'ANY', 'OSHA', 'MSHA', 'NAZI', 'CEJL', 'TO', 'GO', 'THIS', 'AvE', 'A No', 'THEM', 'BWC', 'Hu', 'OwO', 'UDK', 'ASS', 'ASMR', 'VR', 'ERP', 'DRAT', 'JSON', 'PR', 'WSHH', 'IDK', 'BC', 'OS', 'AHH', 'Ya', 'OPs', 'St', 'A B', 'L', 'BLT', 'BLTs', 'LARP', 'EZ', 'POC', 'CNN', 'ALL', 'OR', 'W', 'WITH', 'POV', 'EP', 'Mm', 'HC', 'YT', 'FYI', 'SNL', 'SJW', 'Nu', 'RPM', 'HOA', 'VP', 'SUCK', 'Ez', 'NS', 'Rr', 'Ah I', 'IF', 'NPE', 'DNA', 'SUCH', 'Lo', 'Ey', 'Nj', 'IPCC', 'TP', 'Ku', 'NVLD'
 }
 
 
@@ -87,25 +97,24 @@ def updateTickerInfo(stock_ticker_to_update):
     # see if it exists in the dictionary
     print("check ticker for" + stock_ticker_to_update)
     if stock_ticker_to_update in stock_ticker_tracking_array.keys():
-        print ("updating mentions for: " + stock_ticker_to_update)
-        print ("currently has " + str(stock_ticker_tracking_array[stock_ticker_to_update].mentions))
+        print("updating mentions for: " + stock_ticker_to_update)
+        print("currently has " +
+              str(stock_ticker_tracking_array[stock_ticker_to_update].mentions))
         stock_ticker_tracking_array[stock_ticker_to_update].mentions += 1
-        
+
 # otherwise create
     else:
-        print ("creating new ticker for" + stock_ticker_to_update)
+        print("creating new ticker for" + stock_ticker_to_update)
         newTicker = Ticker()
         newTicker.name = stock_ticker_to_update
         newTicker.mentions = 1
-        newTicker.price = getPrice(stock_ticker_to_update)
+        # newTicker.price = getPrice(stock_ticker_to_update)
         stock_ticker_tracking_array[newTicker.name] = newTicker
-        print ("finished ticker for" + stock_ticker_to_update)
-
+        print("finished ticker for" + stock_ticker_to_update)
 
 
 # get ids of all threads
-
-bizBoard = basc_py4chan.Board('b')
+bizBoard = basc_py4chan.Board('biz')
 bizThreadIDs = bizBoard.get_all_thread_ids()
 
 for threadID in bizThreadIDs:
@@ -118,18 +127,14 @@ for threadID in bizThreadIDs:
         for post in posts:
             text_comment = post.text_comment
             tickerArray = (findTickers(text_comment))
-            print (tickerArray)
+            print(tickerArray)
             for stock_ticker in tickerArray:
-                print ("iterating")
                 if len(stock_ticker) < 5:
                     if stock_ticker in nogoSet:
-                        print(stock_ticker + " was in NOGOS!")
-                        print(stock_ticker)
-                        print("so we skipping")
                         continue
                     else:
                         updateTickerInfo(stock_ticker)
-                    
+
                 else:
                     continue
 
@@ -152,11 +157,9 @@ for x in stock_ticker_tracking_array:
 
 for x in stock_ticker_tracking_array:
     # get news!
-    top_headlines = getNews(stock_ticker_tracking_array[x].name)
-    if stock_ticker_tracking_array[x].price is not None:
+    if (stock_ticker_tracking_array[x].mentions > 5):
+        top_headlines = getNews(stock_ticker_tracking_array[x].name)
         print(stock_ticker_tracking_array[x].name)
         db.bizWordsCards.insert_one({"id": stock_ticker_tracking_array[x].name, "ticker": stock_ticker_tracking_array[x].name, "currentPrice": stock_ticker_tracking_array[x].price, "comments": [
         ], "numMentions": stock_ticker_tracking_array[x].mentions, "dateTimeStamp": datetime.now(), "news": top_headlines})
         print('-----')
-
-print (newNoGoArray)
