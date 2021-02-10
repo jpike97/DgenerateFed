@@ -1,10 +1,10 @@
 <template>
 	<div class="cardgrid">
-		<h1>Stocks to Watch</h1>
+		<h1>What's Trending?</h1>
 		<div class="cardgrid__cards">
 			<div
 				class="card__wrapper"
-				:class="card.numMentions > 15 ? 'wow' : ''"
+				:class="card.numMentions > 100 ? 'wow' : ''"
 				v-for="card in cards"
 				:key="card.id"
 			>
@@ -103,14 +103,12 @@ a {
 		&:hover {
 			transform: scale(1.1);
 			transition: transform 0.25s ease-in-out;
+			border: 1px solid #42b983;
 		}
 
 		&.wow {
-			animation: pulse 2s infinite;
-			&:hover { 
-				animation-play-state: paused;
-				border: 2px solid red;
-			}
+			animation: pulse 5s infinite;
+
 		}
 	}
 	&__header {
@@ -124,18 +122,15 @@ a {
 
 @keyframes pulse {
 	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 red;
+		border: 2px solid red
 	}
 
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 10px red;
+	50% {
+		border: 2px solid blue;
 	}
 
 	100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 red;
+		border: 2px solid red;
 	}
 }
 </style>

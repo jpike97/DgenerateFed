@@ -62,7 +62,7 @@ app.get('/cards', (req, res) => {
     res.send({
       cards: cards
     })
-  }).sort({numMentions:-1, currentPrice: -1}).limit(10)
+  }).sort({numMentions:-1, currentPrice: -1}).limit(12)
 });
 
 app.get('/cards/:id', (req, res) => {
