@@ -30,6 +30,11 @@ _nav.scss necessary? move to nav component?
 
 news api stuff
 
+how to store price & things like that
+
+comment tracking ?
+
+
 
 
 
