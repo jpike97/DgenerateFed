@@ -50,10 +50,20 @@ var bizWordsCard = mongoose.model('bizWordsCard', new Schema({
   currentPrice: Number,
   comments: Array,
   numMentions: Number,
+  previousNumMentions: Number,
   dateTimeStamp: Date,
   news: Array
 }, { collection: 'bizWordsCards'})
 );
+
+var news = mongoose.model('news', new Schema({
+  id: String,
+  ticker: String,
+  currentPrice: Number,
+  news: Array,
+  dateTimeStamp: Date
+}, { collection: 'news'}
+));
 
 
 app.get('/cards', (req, res) => {
@@ -78,12 +88,20 @@ app.get('/cards/:id', (req, res) => {
 app.get('/news/:id', (req, res) => {
   const id = req.params.id;
   var event = "";
-  bizWordsCard.find({ticker: id}, function(err, card) {
+  news.find({ticker: id}, function(err, card) {
     console.log("hmm");
     console.log(card);
-    res.send({
-      news: card[0].news
-    })
+    if (card.length == 0) { 
+      console.log("empty");
+      res.send({
+        news: "no news"
+      })
+    }
+    else { 
+      res.send({
+        news: card[0].news
+      })
+    }
   }).sort({_id:-1}).limit(1);
 });
 

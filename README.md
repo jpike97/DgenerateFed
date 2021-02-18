@@ -34,6 +34,8 @@ how to store price & things like that
 
 comment tracking ?
 
+filter by percentage change
+
 
 
 
