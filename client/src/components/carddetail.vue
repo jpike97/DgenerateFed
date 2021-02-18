@@ -1,8 +1,9 @@
 <template>
 	<div class="card-detail">
 		<div class="card-detail__currentprice">
-		<h2>Current Price</h2>
-		<p>{{ card.currentPrice }}</p>
+		<h2>Current Mentions</h2>
+		<p>{{card.numMentions}}</p>
+		<p>{{card.previousNumMentions}}</p>
 		</div>
 		<div class="news">
 			<h2>News</h2>
@@ -10,7 +11,11 @@
 				<h3>
 				<a target="_blank" :href='newsArticle[1]'> {{ newsArticle[0] }} </a>
 				</h3>
+				<h3 v-if="news == undefined">
+					No News... woah
+				</h3>
 			</div>
+			
 		</div>
 	</div>
 </template>
@@ -42,12 +47,12 @@ export default {
 			const response = await CardDetailService.fetchCardDetail(cardID);
 			console.log(response);
 			this.card = response.data.card[0];
-			this.card.currentPrice = this.card.currentPrice.toFixed(2);
 		},
 		async getCardNews() {
 			let cardID = this.$route.params.id;
 			const response = await NewsService.fetchNewsByID(cardID);
 			this.news = response.data.news;
+			console.log("this is news");
 			console.log(this.news);
 		}
 	}

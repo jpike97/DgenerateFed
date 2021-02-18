@@ -11,8 +11,8 @@
 				<a :href="'/cards/' + card.ticker" class="card__header">
 					<div class="card__header-info">
 						<h2>{{ card.ticker }}</h2>
-						<h3>{{ card.currentPrice.toFixed(2) }}</h3>
 						<h3>{{ card.numMentions }} mentions</h3>
+						<h3 class="percent" :class="calculatePercentChange(card.previousNumMentions, card.numMentions) > 0 ? 'positive' : ''">{{calculatePercentChange(card.previousNumMentions, card.numMentions)}}% change</h3>
 					</div>
 				</a>
 			</div>
@@ -42,9 +42,12 @@ export default {
 	methods: {
 		async getCards() {
 			const response = await CardsService.fetchCards();
-			this.cards = response.data.cards.filter(function (card) {
-				return card.currentPrice != null;
-			});
+			this.cards = response.data.cards;
+		},
+		calculatePercentChange(prevMentions, currentMentions) { 
+			var change = prevMentions - currentMentions;
+			var perChange = (change / prevMentions) * 100;
+			return perChange.toFixed(2);
 		}
 	}
 };
@@ -55,6 +58,13 @@ export default {
 @import "@/scss/_variables.scss";
 h3 {
 	margin: 40px 0 0;
+	&.percent { 
+	color: red;
+	&.positive { 
+		color: green;
+	}
+	}
+
 }
 ul {
 	list-style-type: none;
