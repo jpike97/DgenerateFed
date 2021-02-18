@@ -11,6 +11,7 @@ from selenium.webdriver.chrome.options import Options
 from newsapi import NewsApiClient
 import basc_py4chan
 from iexfinance.stocks import Stock
+import operator
 
 
 def findTickers(bodyText):
@@ -44,7 +45,7 @@ def getNews(symbol):
     except:
         return 0
         json_news_data = response.json()
-        print (json_news_data)
+        print(json_news_data)
         for x in json_news_data['articles']:
             news_array.append([x['title'], x['url']])
         return news_array
@@ -79,7 +80,7 @@ nogoSet = {
     "FOMC", "TINA", "TL", "DR", "TED", "OP", "QE", "LEAP", "FWIW", "TLDR",
     "DUMB", "CALL", "SPYs", "BS", "YOLOs", "In", "Jr", "STILL", "EST", "CRAZY",
     "VIX", "FAFSA", "BTFD", "EOY", "YUGE", "EDT", "CHINA", "UNK", "JAPAN",
-    "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im", "FUD", "USD", "TRIPLE",  "Gf", 'Am I', 'No I', 'MUCH', 'Id', 'Uh', 'NO', 'Mr', 'LSD', 'Me', 'BBC', 'V', 'X', 'AI', 'AOC', 'ST', 'YO', 'Ex', 'SiL', 'OC', 'He', 'BY', 'Y', 'THAT', 'YES', 'MORE', 'GF', 'WAIT', 'G', 'O', 'T', 'MIN', 'H', 'SJWs', 'On', 'Al', 'AR', 'YOU', 'S', 'VII', 'VIII', 'VI', 'II', 'Au', 'Ag', 'BUMP', 'Ew', 'FAST', 'XD', 'Ro', 'Em', 'N', 'ROLL', 'Eh', 'RAUL', 'Re', 'YLYL', 'AC', 'DC', 'BBQ', 'Op', 'KOd', 'Us', 'PC', 'As', 'CEO', 'SAME', 'Bc', 'By', 'TACs', 'R', 'HG', 'JFC', 'IP', 'JC', 'IT', 'ONE', 'BJ', 'CL', 'Oh I', 'HUNG', 'Bf', 'Bi', 'M', 'F', 'Z', 'K', 'CDC', 'NOT', 'Be', 'TV', 'NPD', 'CIS', 'OK', 'Bj', 'OMG', 'JJ', 'WWYD', 'STFU', 'C', 'WOO', 'LoL', 'GTA', 'E', 'RAGE', 'XSX', 'MC', 'SA', 'SON', 'An', 'Eg', 'LGBT', 'GDP', 'GW', 'Da', 'GAY', 'Dr', 'DLC', 'GE', 'MOBA', 'ToS', 'IRQ', 'Mb', 'WHFB', 'AoS', 'MOAR', 'NEED', 'GoT', 'B', 'Vp', 'AND', 'EU', 'Um', 'STOP', 'BRO', 'CDs', 'BE', 'HRT', 'HON', 'GME', 'OK I', 'OTC', 'NC', 'D', 'GOOD', 'Hi', 'BBW', 'HOT', 'AA', 'EVER', 'ARE', 'LA', 'KYS', 'IQ', 'SAT', 'GTFO', 'HEY', 'FBI', 'ACT', 'CAN', 'BMI', 'FTM', 'SHTF', 'MRE', 'PB', 'SO', 'USA', 'TABS', 'CP', 'BLM', 'EXT', 'RO', 'EDC', 'KEK', 'Ar', 'ACs', 'DVR', 'PSE', 'HA', 'BOB', 'BOY', 'Hm', 'De', 'AD', 'USSR', 'NK', 'ANY', 'OSHA', 'MSHA', 'NAZI', 'CEJL', 'TO', 'GO', 'THIS', 'AvE', 'A No', 'THEM', 'BWC', 'Hu', 'OwO', 'UDK', 'ASS', 'ASMR', 'VR', 'ERP', 'DRAT', 'JSON', 'PR', 'WSHH', 'IDK', 'BC', 'OS', 'AHH', 'Ya', 'OPs', 'St', 'A B', 'L', 'BLT', 'BLTs', 'LARP', 'EZ', 'POC', 'CNN', 'ALL', 'OR', 'W', 'WITH', 'POV', 'EP', 'Mm', 'HC', 'YT', 'FYI', 'SNL', 'SJW', 'Nu', 'RPM', 'HOA', 'VP', 'SUCK', 'Ez', 'NS', 'Rr', 'Ah I', 'IF', 'NPE', 'DNA', 'SUCH', 'Lo', 'Ey', 'Nj', 'IPCC', 'TP', 'Ku', 'NVLD', 'Q', 'TX', 'HODL', 'ETH', 'BTC'
+    "YoY", "UK", "NY", "QoQ", "NAHB", "XI", "Im", "FUD", "USD", "TRIPLE",  "Gf", 'Am I', 'No I', 'MUCH', 'Id', 'Uh', 'NO', 'Mr', 'LSD', 'Me', 'BBC', 'V', 'X', 'AI', 'AOC', 'ST', 'YO', 'Ex', 'SiL', 'OC', 'He', 'BY', 'Y', 'THAT', 'YES', 'MORE', 'GF', 'WAIT', 'G', 'O', 'T', 'MIN', 'H', 'SJWs', 'On', 'Al', 'AR', 'YOU', 'S', 'VII', 'VIII', 'VI', 'II', 'Au', 'Ag', 'BUMP', 'Ew', 'FAST', 'XD', 'Ro', 'Em', 'N', 'ROLL', 'Eh', 'RAUL', 'Re', 'YLYL', 'AC', 'DC', 'BBQ', 'Op', 'KOd', 'Us', 'PC', 'As', 'CEO', 'SAME', 'Bc', 'By', 'TACs', 'R', 'HG', 'JFC', 'IP', 'JC', 'IT', 'ONE', 'BJ', 'CL', 'Oh I', 'HUNG', 'Bf', 'Bi', 'M', 'F', 'Z', 'K', 'CDC', 'NOT', 'Be', 'TV', 'NPD', 'CIS', 'OK', 'Bj', 'OMG', 'JJ', 'WWYD', 'STFU', 'C', 'WOO', 'LoL', 'GTA', 'E', 'RAGE', 'XSX', 'MC', 'SA', 'SON', 'An', 'Eg', 'LGBT', 'GDP', 'GW', 'Da', 'GAY', 'Dr', 'DLC', 'GE', 'MOBA', 'ToS', 'IRQ', 'Mb', 'WHFB', 'AoS', 'MOAR', 'NEED', 'GoT', 'B', 'Vp', 'AND', 'EU', 'Um', 'STOP', 'BRO', 'CDs', 'BE', 'HRT', 'HON', 'GME', 'OK I', 'OTC', 'NC', 'D', 'GOOD', 'Hi', 'BBW', 'HOT', 'AA', 'EVER', 'ARE', 'LA', 'KYS', 'IQ', 'SAT', 'GTFO', 'HEY', 'FBI', 'ACT', 'CAN', 'BMI', 'FTM', 'SHTF', 'MRE', 'PB', 'SO', 'USA', 'TABS', 'CP', 'BLM', 'EXT', 'RO', 'EDC', 'KEK', 'Ar', 'ACs', 'DVR', 'PSE', 'HA', 'BOB', 'BOY', 'Hm', 'De', 'AD', 'USSR', 'NK', 'ANY', 'OSHA', 'MSHA', 'NAZI', 'CEJL', 'TO', 'GO', 'THIS', 'AvE', 'A No', 'THEM', 'BWC', 'Hu', 'OwO', 'UDK', 'ASS', 'ASMR', 'VR', 'ERP', 'DRAT', 'JSON', 'PR', 'WSHH', 'IDK', 'BC', 'OS', 'AHH', 'Ya', 'OPs', 'St', 'A B', 'L', 'BLT', 'BLTs', 'LARP', 'EZ', 'POC', 'CNN', 'ALL', 'OR', 'W', 'WITH', 'POV', 'EP', 'Mm', 'HC', 'YT', 'FYI', 'SNL', 'SJW', 'Nu', 'RPM', 'HOA', 'VP', 'SUCK', 'Ez', 'NS', 'Rr', 'Ah I', 'IF', 'NPE', 'DNA', 'SUCH', 'Lo', 'Ey', 'Nj', 'IPCC', 'TP', 'Ku', 'NVLD', 'Q', 'TX', 'HODL', 'ETH', 'BTC', 'HUGE', 'GAS', 'ID', 'APY'
 }
 
 
@@ -102,6 +103,7 @@ def updateTickerInfo(stock_ticker_to_update):
         newTicker.mentions = 1
         # newTicker.price = getPrice(stock_ticker_to_update)
         stock_ticker_tracking_array[newTicker.name] = newTicker
+
 
 # get ids of all threads
 bizBoard = basc_py4chan.Board('biz')
@@ -140,16 +142,21 @@ for threadID in bizThreadIDs:
 
 
 news = []
+top_headlines = []
 
-for x in stock_ticker_tracking_array:
-    db.bizWordsCards.remove({"id": stock_ticker_tracking_array[x].name})
+assetLimit = 0
 
-for x in stock_ticker_tracking_array:
-    # get news!
-    if (stock_ticker_tracking_array[x].mentions > 5):
-        top_headlines = getNews(stock_ticker_tracking_array[x].name)
-        print(stock_ticker_tracking_array[x].name)
-        print (top_headlines)
-        db.bizWordsCards.insert_one({"id": stock_ticker_tracking_array[x].name, "ticker": stock_ticker_tracking_array[x].name, "currentPrice": stock_ticker_tracking_array[x].price, "comments": [
-        ], "numMentions": stock_ticker_tracking_array[x].mentions, "dateTimeStamp": datetime.now(), "news": top_headlines})
-        print('-----')
+for asset in (sorted(stock_ticker_tracking_array.values(), key=operator.attrgetter('mentions'), reverse=True)):
+    print(asset.name)
+    print(asset.mentions)
+    previousEntry = db.bizWordsCards.find_one({"ticker": asset.name})
+    previousNumMentions = 0
+    if previousEntry is not None:
+        previousNumMentions = previousEntry["numMentions"]
+    db.bizWordsCards.remove({"id": asset.name})
+    db.bizWordsCards.insert_one({"id": asset.name, "ticker": asset.name, "currentPrice": asset.price, "comments": [
+    ], "numMentions": asset.mentions, "dateTimeStamp": datetime.now(), "previousNumMentions": previousNumMentions})
+    print('-----')
+    if assetLimit > 12:
+        break
+    assetLimit += 1

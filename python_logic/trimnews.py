@@ -16,5 +16,4 @@ db = client.dGenerate
 now = datetime.now() + timedelta(days=1)
 now = datetime(*now.timetuple()[:3])
 print(now)
-db.bizWordsCards.remove( { "dateTimeStamp" : {"$lt" : now } })
-db.bizPicSnaps.remove( { "dateTimeStamp" : {"$lt" : now } })
+db.news.remove( { "dateTimeStamp" : {"$lt" : now } })
