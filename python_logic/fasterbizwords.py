@@ -8,7 +8,6 @@ from bs4 import BeautifulSoup
 import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from newsapi import NewsApiClient
 import basc_py4chan
 from iexfinance.stocks import Stock
 import operator
@@ -34,22 +33,6 @@ def getPrice(ticker):
         return price
     except:
         return newNoGoArray.append(ticker)
-
-
-def getNews(symbol):
-    news_array = []
-    api_key = "594ed19f25ef4721bc7cf77cbf0aadc6"
-    try:
-        response = requests.get("https://newsapi.org/v2/everything?q=" +
-                                symbol + "&apiKey=" + api_key)
-    except:
-        return 0
-        json_news_data = response.json()
-        print(json_news_data)
-        for x in json_news_data['articles']:
-            news_array.append([x['title'], x['url']])
-        return news_array
-    print("got news I guess")
 
 
 password = config.password
