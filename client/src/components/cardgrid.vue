@@ -12,7 +12,7 @@
 					<div class="card__header-info">
 						<h2>{{ card.ticker }}</h2>
 						<h3>{{ card.numMentions }} mentions</h3>
-						<h3 class="percent" :class="calculatePercentChange(card.previousNumMentions, card.numMentions) > 0 ? 'positive' : ''">{{calculatePercentChange(card.previousNumMentions, card.numMentions)}}% change</h3>
+						<h3 class="percent" :class="calculatePercentChangeClass(card.previousNumMentions, card.numMentions)">{{calculatePercentChange(card.previousNumMentions, card.numMentions)}}<span v-if="calculatePercentChange(card.previousNumMentions, card.numMentions) != 'No Previous Data!'">% change</span></h3>
 					</div>
 				</a>
 			</div>
@@ -45,9 +45,28 @@ export default {
 			this.cards = response.data.cards;
 		},
 		calculatePercentChange(prevMentions, currentMentions) { 
+			if (prevMentions == 0) { 
+				return "No Previous Data!";
+			}
+			else { 
 			var change = prevMentions - currentMentions;
 			var perChange = (change / prevMentions) * 100;
 			return perChange.toFixed(2);
+			}
+		},
+		calculatePercentChangeClass(prevMentions, currentMentions) { 
+			if (prevMentions == 0) { 
+				return "yellow";
+			}
+			var change = prevMentions - currentMentions;
+			var perChange = (change / prevMentions) * 100;
+			if (perChange > 0) { 
+				return "green";
+			}
+			if (perChange < 0 ) { 
+				return "red";
+			}
+			
 		}
 	}
 };
@@ -58,13 +77,15 @@ export default {
 @import "@/scss/_variables.scss";
 h3 {
 	margin: 40px 0 0;
-	&.percent { 
-	color: red;
-	&.positive { 
+	&.yellow { 
+	color: yellow;
+	}
+	&.green { 
 		color: green;
 	}
+	&.red { 
+		color: red;
 	}
-
 }
 ul {
 	list-style-type: none;
