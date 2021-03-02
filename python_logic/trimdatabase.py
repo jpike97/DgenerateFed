@@ -13,7 +13,7 @@ client = pymongo.MongoClient("mongodb://" + username + ":" + password + "@cluste
 
 names = client.list_database_names()
 db = client.dGenerate
-now = datetime.now() + timedelta(days=1)
+now = datetime.now() - timedelta(days=1)
 now = datetime(*now.timetuple()[:3])
 print(now)
 db.bizWordsCards.remove( { "dateTimeStamp" : {"$lt" : now } })
