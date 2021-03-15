@@ -8,7 +8,7 @@
 				v-for="card in cards"
 				:key="card.id"
 			>
-				<a :href="'/cards/' + card.ticker" class="card__header">
+				<a target="_blank" :href="'https://www.coindesk.com/price/' + card.ticker.toLowerCase()" class="card__header">
 					<div class="card__header-info">
 						<h2>{{ card.ticker }}</h2>
 						<h3>{{ card.numMentions }} mentions</h3>
