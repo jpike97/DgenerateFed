@@ -18,18 +18,10 @@ Vue.use(VueRouter)
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },{
-    path: "/cards/:id",
-    name: "Cards",
-    component: () => import("../views/CardDetail.vue"),
+    path: "/users/:id",
+    name: "Users",
+    component: () => import("../views/UserDetail.vue"),
     props: {id: ':id'}
-  },
-  { 
-    //weird rando redirection
-    path: '/rando', redirect: to => {
-      console.log(to);
-      //todo: build function that rando selects cardID
-      return '/';
-    }
   }
 ]
 

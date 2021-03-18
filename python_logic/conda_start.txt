@@ -1,2 +1,0 @@
-C:/Users/jpike/AppData/Local/Continuum/anaconda3/Scripts/activate
-conda activate base

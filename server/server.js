@@ -11,13 +11,12 @@ var loginData = {
         password: options.storageConfig.password
 };
 
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-
-
-const uri = "mongodb+srv://" + loginData.username + ":" + loginData.password + "@cluster0.7s8dh.mongodb.net/dGenerate?retryWrites=true&w=majority";
+const uri = "mongodb+srv://" + loginData.username + ":" + loginData.password + "@cluster0.tgu4c.mongodb.net/sampledatabase?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -34,94 +33,47 @@ db.once('open', function() {
 
 var Schema = mongoose.Schema;
 
-var bizPicSnap = mongoose.model('bizPicSnap', new Schema({
-  greenTotal: Number,
-  redTotal: Number,
-  imageTotal: Number,
-  HSVavg: Array,
-  dateTimeStamp: Date,
-  expire_at: {type: Date, default: Date.now, expires: 120} 
-}, { collection: 'bizPicSnaps'})
-);
 
-var bizWordsCard = mongoose.model('bizWordsCard', new Schema({
+var users = mongoose.model('users', new Schema({
   id: String,
-  ticker: String,
-  currentPrice: Number,
-  comments: Array,
-  numMentions: Number,
-  previousNumMentions: Number,
-  dateTimeStamp: Date,
-  news: Array
-}, { collection: 'bizWordsCards'})
-);
+  units: Number,
+  positions: Array
+}, { collection: 'users'}
+));
 
-var news = mongoose.model('news', new Schema({
+var positions = mongoose.model('positions', new Schema({
   id: String,
-  ticker: String,
-  currentPrice: Number,
-  news: Array,
-  dateTimeStamp: Date
-}, { collection: 'news'}
+  units: Number,
+  positions: Array
+}, { collection: 'positions'}
 ));
 
 
-app.get('/cards', (req, res) => {
-  bizWordsCard.find({}, function (error, cards) {
+app.get('/users', (req, res) => {
+  users.find({}, function (error, users) {
     if (error) { console.error(error); }
     res.send({
-      cards: cards
+      users: users
     })
   }).sort({numMentions:-1, currentPrice: -1}).limit(12)
 });
 
-app.get('/cards/:id', (req, res) => {
+app.get('/users/:id', (req, res) => {
   const id = req.params.id;
   var event = "";
-  bizWordsCard.find({ticker: id}, function(err, card) {
+  users.find({id: id}, function(err, user) {
     res.send({
-      card: card
+      user: user
     })
-  }).sort({_id:-1}).limit(1);
-});
-
-app.get('/news/:id', (req, res) => {
-  const id = req.params.id;
-  var event = "";
-  news.find({ticker: id}, function(err, card) {
-    console.log("hmm");
-    console.log(card);
-    if (card.length == 0) { 
-      console.log("empty");
-      res.send({
-        news: "no news"
-      })
-    }
-    else { 
-      res.send({
-        news: card[0].news
-      })
-    }
-  }).sort({_id:-1}).limit(1);
+  }).sort({id:-1}).limit(1);
 });
 
 
 //test code end
-
 app.get('/', (req, res) => {
   res.send(`Hi! Server is listening on port ${port}`)
 });
 
-app.get('/bizpic', (req, res) => {
-  bizPicSnap.find({}, function (error, snap) {
-    if (error) { console.error(error); }
-    res.send({
-      snap: snap
-    })
-  }).sort({_id:-1}).limit(1)
-});
-
-     
 
 // listen on the port
 app.listen(port);

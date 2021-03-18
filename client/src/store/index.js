@@ -5,19 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    message: 'helloThere!',
-    cards: [ {
-      title: 'Card 1',
-      msg: 'Card1 Message' 
-
-    },
-    { 
-      title: 'Card 2',
-      msg: 'Card2 Message'
-    },
-
-    ]
-
+    message: 'helloThere!'
   },
   mutations: {
   },
